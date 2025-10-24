@@ -5,3 +5,6 @@ deck/
 .venv/
 
 chroma-data/
+
+# Environment variables (contains API keys)
+.env
