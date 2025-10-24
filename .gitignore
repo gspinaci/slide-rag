@@ -1,0 +1,7 @@
+deck/
+
+.vscode/
+
+.venv/
+
+chroma-data/
