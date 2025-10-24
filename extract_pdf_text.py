@@ -259,7 +259,7 @@ def setup_chromadb(host: str = "localhost", port: int = 8000) -> chromadb.Client
     sys.exit(1)
 
 
-def store_chunks_in_chromadb(chunks_data: List[Dict], host: str = "localhost", port: int = 8000, collection_name: str = "slide_chunks", deck_name: str = None):
+def store_chunks_in_chromadb(client: any, chunks_data: List[Dict], host: str = "localhost", port: int = 8000, collection_name: str = "slide_chunks", deck_name: str = None):
   """
   Store text chunks in ChromaDB with metadata, replacing any existing chunks for the same deck.
 
@@ -268,7 +268,8 @@ def store_chunks_in_chromadb(chunks_data: List[Dict], host: str = "localhost", p
       collection_name (str): Name of the ChromaDB collection
       deck_name (str): Name of the deck to replace chunks for (if None, uses first chunk's deck_name)
   """
-  client = setup_chromadb(host=host, port=port)
+  if not client:
+    client = setup_chromadb(host=host, port=port)
 
   # Get or create collection
   try:
@@ -384,9 +385,6 @@ def process_pdf_with_chunking(pdf_path: Path, chunk_size: int, store_in_db: bool
   print(
     f"Created {len(chunks_data)} chunks from {pdf_path.name}")
 
-  if store_in_db and chunks_data:
-    store_chunks_in_chromadb(chunks_data, deck_name=deck_name)
-
   return chunks_data
 
 
@@ -425,7 +423,7 @@ def main(folder, collection, host, port, chunk_size):
       print(f"Cleared existing collection: {collection}")
     except:
       pass  # Collection might not exist
-    store_chunks_in_chromadb(all_chunks_data, host=host, port=port)
+    store_chunks_in_chromadb(client, all_chunks_data, host=host, port=port, collection_name=collection)
 
   print(f"\nProcessing complete!")
   if chromadb:
