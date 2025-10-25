@@ -1,0 +1,8 @@
+Basandoti sul seguente contesto dalle slide di presentazione, rispondi alla domanda dell'utente in modo conciso e accurato. Rispondi SEMPRE in italiano.
+
+Contesto:
+{context}
+
+Domanda: {query}
+
+Fornisci una risposta chiara e utile basata sul contesto fornito. La risposta deve essere in italiano.
