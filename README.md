@@ -7,6 +7,7 @@ A comprehensive Retrieval-Augmented Generation (RAG) system for PDF slide presen
 - **PDF Text Extraction**: Extract text from PDF slides with intelligent chunking
 - **Vector Database Storage**: Store text chunks in ChromaDB with metadata
 - **Semantic Search**: Find relevant content using sentence transformers
+- **Multilingual Embeddings**: Support for multilingual models with excellent Italian performance
 - **LLM-Powered Answers**: Generate intelligent responses using Gemini or local models
 - **Web Chat Interface**: User-friendly Gradio-based chat interface
 - **Configurable Chunking**: Adjustable chunk sizes for optimal retrieval performance
@@ -17,6 +18,7 @@ A comprehensive Retrieval-Augmented Generation (RAG) system for PDF slide presen
 - [Installation](#installation)
 - [Quickstart](#quickstart)
 - [Configuration](#configuration)
+- [Embedding Models](#embedding-models)
 - [Architecture](#architecture)
 - [Contributing](#contributing)
 - [Support](#support)
@@ -84,6 +86,50 @@ This will:
 - Create intelligent chunks (default: 800 characters)
 - Store chunks in ChromaDB with metadata
 
+### 4. Chat with the slides
+
+You can search and chat with your indexed slides using the command-line search tool:
+
+```bash
+python search_slides.py --query "your search query"
+```
+
+**Help Output:**
+```
+Usage: search_slides.py [OPTIONS]
+
+  Semantic search tool for slide content using LangChain and ChromaDB with
+  Gemini-powered answers.
+
+Options:
+  -q, --query TEXT            Search query string  [required]
+  -k, --top-k INTEGER         Number of results to return (default: 5)
+  -h, --host TEXT             ChromaDB host (default: localhost)
+  -p, --port INTEGER          ChromaDB port (default: 8000)
+  -C, --collection TEXT       ChromaDB collection name (default: slide_chunks)
+  -m, --model TEXT            Gemini model to use (default: gemini-2.5-flash-
+                              lite)
+  -E, --embedding_model TEXT  Embedding model to use (default: sentence-
+                              transformers/all-MiniLM-L6-v2)
+  --help                      Show this message and exit.
+```
+
+**What it does:**
+The [`search_slides.py`](search_slides.py) script provides a powerful semantic search interface for your indexed slide content. It performs similarity search using vector embeddings to find the most relevant chunks from your slides, then uses Google's Gemini AI model to generate intelligent, contextual answers based on the retrieved content. The tool returns formatted responses with proper references to the source slides and page numbers, making it easy to verify and follow up on the information provided.
+
+**Example Usage:**
+```bash
+# Basic search
+python search_slides.py --query "machine learning algorithms"
+
+# Search with more results
+python search_slides.py --query "data preprocessing" --top-k 10
+
+# Use different ChromaDB settings
+python search_slides.py --query "neural networks" --host remote-server --port 8001
+```
+
+
 ## Configuration
 
 ### PDF Extraction Options
@@ -130,6 +176,12 @@ The chunk size parameter controls how text is split for vector storage:
 | 200        | ~5           | High             | Low              |
 | 800        | ~1-2         | Medium           | High             |
 | 1200       | ~1           | Low              | Very High        |
+
+## Embedding Models
+
+### Default vs Multilingual Models
+
+The system uses [`sentence-transformers/all-MiniLM-L6-v2`](search_slides.py:552) as the default embedding model, but supports **multilingual models** that provide significantly better performance for Italian and other non-English content.
 
 ## Architecture
 
