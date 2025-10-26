@@ -25,20 +25,13 @@ A comprehensive Retrieval-Augmented Generation (RAG) system for PDF slide presen
 
 ## Installation
 
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd slide-rag
-```
-
-### 2. Install Dependencies
+### 1. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. ChromaDB Setup
+### 2. ChromaDB Setup
 
 #### Using Docker Compose (Recommended)
 
